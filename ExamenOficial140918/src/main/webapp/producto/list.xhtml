@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <ui:insert>
+            <ui:include src="../templates/header.xhtml"/>
+        </ui:insert>
+        <h2>Producto</h2>   
+        <h:form id="formdatatable">
+            <b:dataTable value="#{productoCtrl.list}"
+                         var="c" >
+                <b:dataTableColumn value="#{c.id_producto}" order="desc" />
+                <b:dataTableColumn label="id_categoria">
+                    <h:inputText value="#{c.id_categoria}"/>
+                    <h:outputText value="#{c.id_unimed}"/>
+                    <h:outputText value="#{c.monbre}"/>
+                    <h:outputText value="#{c.descripcion}"/>
+                    
+                </b:dataTableColumn>
+                <b:dataTableColumn value="#{c.codigo}" />
+                <b:dataTableColumn label="Opciones">
+                    <b:panelGrid columns="2"> 
+                        <b:button value="Edit" 
+                                         onclick="$('.editModalClass').modal('show')" look="success">
+                        </b:button>
+                        <b:commandButton value="Delete" ajax="true" update=":formdatatable" actionListener="#{ProductoCtrl.deleteProducto(c.id_producto)}" look="danger">
+                        </b:commandButton>
+                    </b:panelGrid>
+                </b:dataTableColumn>                 
+            </b:dataTable> 
+            <!--<b:commandButton value="Create" action="/categoria/create" look="success"/>-->
+            <b:button onclick="$('.createModalClass').modal('show')" value="Create" look="success"/>
+
+        </h:form>
+  
+        <b:modal title="Create Producto" styleClass="createModalClass"
+                 closable="false"
+                 closeOnEscape="true">
+            <b:form id="forminsert">
+                <b:panelGrid columns="1" size="xs">                    
+                <b:inputText id="idcategoriaDiv" value="#{productoCtrl.selected.id_producto}"
+                             label="Id:" />
+                <b:inputText id="id_categoriaDiv" value="#{productoCtrl.selected.id_categoria}"
+                             label="id_categoría:" />
+                <b:inputText id="id_unimedDiv" value="#{productoCtrl.selected.id_unimed}"
+                             label="id_unimed:" />
+                <b:inputText id="nombreDiv" value="#{productoCtrl.selected.nombre}"
+                             label="Nombre:" />
+                <b:inputText id="descripcionDiv" value="#{productoCtrl.selected.descripcion}"
+                             label="Descripcion:" />
+                <b:inputText id="codigoDiv" value="#{productoCtrl.selected.codigo}"
+                             label="Codigo:" />
+                </b:panelGrid>
+                <b:row>
+                    <b:column>
+                        <b:button largeScreen="half"  value="Cancel"
+                                  dismiss="modal" look="danger" onclick="return false;"/>
+                        <b:commandButton oncomplete="$('.createModalClass').modal('hide')" ajax="true"  update=":forminsert"                                   
+                                         value="Save" look="success" actionListener="#{productoCtrl.createProducto}"/>
+                    </b:column>
+                </b:row>
+                <b:fetchBeanInfos />
+                <b:messages />
+            </b:form>
+        </b:modal>  
+        
+        <b:modal title="Editar PRODUCTO" styleClass="editModalClass"
+                 closable="false"
+                 closeOnEscape="true">
+            <b:form id="formedit">
+                <b:panelGrid columns="1" size="xs">                    
+                <b:inputText id="idcategoriaDiv" value="#{productoCtrl.selected.id_producto}"
+                             label="Id:" />
+                <b:inputText id="id_categoriaDiv" value="#{productoCtrl.selected.id_categoria}"
+                             label="id_categoría:" />
+                <b:inputText id="id_unimedDiv" value="#{productoCtrl.selected.id_unimed}"
+                             label="id_unimed:" />
+                <b:inputText id="nombreDiv" value="#{productoCtrl.selected.nombre}"
+                             label="Nombre:" />
+                <b:inputText id="descripcionDiv" value="#{productoCtrl.selected.descripcion}"
+                             label="Descripcion:" />
+                <b:inputText id="codigoDiv" value="#{productoCtrl.selected.codigo}"
+                             label="Codigo:" />
+                </b:panelGrid>
+                <b:row>
+                    <b:column>
+                        <b:button largeScreen="half"  value="Cancel"
+                                  dismiss="modal" look="danger" onclick="return false;"/>
+                        <b:commandButton oncomplete="$('.editModalClass').modal('hide')" ajax="true"  update=":formedit"                                   
+                                         value="Update" look="success" actionListener="#{productoCtrl.updateProducto}"/>
+                    </b:column>
+                </b:row>
+                <b:fetchBeanInfos />
+                <b:messages />
+            </b:form>
+        </b:modal>
+    </body>
+</html>
